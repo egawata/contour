@@ -1,5 +1,7 @@
 # Contour detection
 
+Note: This tool is still under development.
+
 ## Description
 
 This tool extracts contour from image and output the result.
@@ -21,3 +23,5 @@ contour -i input.jpg -o output.png
 contour -i sample/input.jpg -o sample/output.jpg -t1 50 -t2 150
 ~~~
 
+![Input image](sample/input.jpg)
+![Output image](sample/output.jpg)
