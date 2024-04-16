@@ -9,18 +9,20 @@ import (
 )
 
 var (
-	in  string
-	out string
+	in     string
+	out    string
+	t1, t2 float64 // threshold
 )
 
 func main() {
-	// オプション変数を受け取る。-o で出力ファイルを指定、-i で入力ファイルを指定
 	flag.StringVar(&in, "i", "", "input filename")
 	flag.StringVar(&out, "o", "", "output filename")
+	flag.Float64Var(&t1, "t1", 100, "threshold1")
+	flag.Float64Var(&t2, "t2", 200, "threshold2")
 	flag.Parse()
 
 	if in == "" || out == "" {
-		log.Fatal("usage: contour -i <input filename> -o <output filename>")
+		log.Fatal("usage: contour -i <input filename> -o <output filename> [-t1 <threshold1>] [-t2 <threshold2>]")
 	}
 
 	img := gocv.IMRead(in, gocv.IMReadGrayScale)
@@ -34,9 +36,10 @@ func main() {
 	gocv.GaussianBlur(img, &blurred, image.Point{X: 5, Y: 5}, 0, 0, gocv.BorderDefault)
 
 	cannied := gocv.NewMat()
-	gocv.Canny(blurred, &cannied, 100, 200)
+	gocv.Canny(blurred, &cannied, float32(t1), float32(t2))
 
 	gocv.BitwiseNot(cannied, &cannied)
 
 	gocv.IMWrite(out, cannied)
+	log.Printf("image saved to %s\n", out)
 }
