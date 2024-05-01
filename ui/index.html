@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Contour</title>
+  </head>
+  <body>
+    <img src="./images/input.jpg" width="300" alt="input" />
+    <img src="./images/output.jpg" width="300" alt="output" />
+    <input type="text" name="threshold1" value="100" />
+    <input type="text" name="threshold2" value="200" />
+    <button>Read Image</button>
+    <button>Generate</button>
+    <button>Export</button>
+  </body>
+</html>
