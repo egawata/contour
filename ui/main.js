@@ -1,8 +1,14 @@
-const {app, BrowserWindow} = require('electron')
+const {
+    app,
+    BrowserWindow,
+    dialog,
+} = require('electron')
 const path = require('node:path')
 
+var mainWindow
+
 const createWindow = () => {
-    const win = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -10,7 +16,7 @@ const createWindow = () => {
         },
     })
     
-    win.loadFile('index.html')
+    mainWindow.loadFile('index.html')
 }
 
 app.whenReady().then(() => {
@@ -22,3 +28,13 @@ app.whenReady().then(() => {
         }
     })
 })
+
+async function openInfileDialog() {
+    dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile']
+    }).then(result => {
+        console.log(result.filePaths)
+    }).catch(err => {
+        console.log(err)
+    })
+}
