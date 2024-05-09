@@ -5,8 +5,8 @@ import { Helmet } from 'react-helmet';
 export const App = () => {
   return (
     <div className="container">
-        <img id="input-image" src="./images/input.jpg" width="300" alt="input" />
-        <img src="./images/output.jpg" width="300" alt="output" />
+        <InputImage src="./images/input.jpg" />
+        <OutputImage src="./images/output.jpg" />
         <input type="text" name="threshold1" value="100" />
         <input type="text" name="threshold2" value="200" />
         <button type="button" id="read-file">Read File</button>
@@ -17,5 +17,25 @@ export const App = () => {
           <script src='./renderer.js'></script>
         </Helmet>
     </div>
+  );
+};
+
+interface InputImageProps {
+  src: string;
+}
+
+const InputImage: React.FC<InputImageProps> = ({ src }) => {
+  return (
+    <img src={src} width="300" alt="input" />
+  );
+};
+
+interface outputImageProps {
+  src: string;
+}
+
+const OutputImage: React.FC<outputImageProps> = ({ src }) => {
+  return (
+    <img src={src} width="300" alt="output" />
   );
 };
