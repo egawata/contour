@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 // aa
 export const App = () => {
-  var [inputImage, setInputImage] = useState('')
+  const [inputImage, setInputImage] = useState('')
 
   const handleReadFile = async () => {
       const filePath = await (window as any).electronAPI.openFile()
@@ -15,8 +15,8 @@ export const App = () => {
     <div className="container">
         <InputImage src={inputImage} />
         <OutputImage src="./images/output.jpg" />
-        <input type="text" name="threshold1" value="100" />
-        <input type="text" name="threshold2" value="200" />
+        <input type="text" name="threshold1" value="100" readOnly />
+        <input type="text" name="threshold2" value="200" readOnly />
         <button type="button" onClick={handleReadFile}>Read File</button>
         file path: <strong id="filePath"></strong>
         <button>Generate</button>
