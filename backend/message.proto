@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "github.com/egawata/contour/backend/message";
+
+package message;
+
+message GetContourRequest {
+    int32 t1 = 1;
+    int32 t2 = 2;
+    bytes in_image = 3;
+}
+
+message GetContourResponse {
+    bytes out_message = 1;
+}
