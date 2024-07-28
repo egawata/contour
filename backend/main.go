@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"image"
 	"log"
 	"net/http"
 
+	"github.com/egawata/contour/backend/message"
 	"github.com/gorilla/websocket"
+	"gocv.io/x/gocv"
+	"google.golang.org/protobuf/proto"
 )
 
 // start http server at port 8080
@@ -36,10 +40,61 @@ func getContourHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 			break
 		}
-		log.Printf("message: %s", p)
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			break
+
+		if messageType == websocket.BinaryMessage {
+			var req message.GetContourRequest
+			if err := proto.Unmarshal(p, &req); err != nil {
+				log.Println(err)
+				continue
+			}
+			inImage := req.GetInImage()
+			log.Printf("req: t1: %d, t2: %d, filename: %s, infile len = %d",
+				req.GetT1(), req.GetT2(), req.GetFilename(), len(inImage))
+
+			outImage, err := getContour(float32(req.GetT1()), float32(req.GetT2()), inImage)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			res := &message.GetContourResponse{
+				Success:  true,
+				OutImage: outImage,
+			}
+			resBytes, err := proto.Marshal(res)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			log.Printf("res.success: %v", res.GetSuccess())
+			if err := conn.WriteMessage(websocket.BinaryMessage, resBytes); err != nil {
+				log.Println(err)
+				continue
+			}
 		}
 	}
+}
+
+func getContour(t1, t2 float32, inImage []byte) ([]byte, error) {
+	img, err := gocv.IMDecode(inImage, gocv.IMReadGrayScale)
+	if err != nil {
+		return nil, err
+	}
+	defer img.Close()
+
+	blurred := gocv.NewMat()
+	defer blurred.Close()
+
+	gocv.GaussianBlur(img, &blurred, image.Point{X: 5, Y: 5}, 0, 0, gocv.BorderDefault)
+
+	cannied := gocv.NewMat()
+	gocv.Canny(blurred, &cannied, t1, t2)
+
+	gocv.BitwiseNot(cannied, &cannied)
+
+	res, err := gocv.IMEncode(".png", cannied)
+	if err != nil {
+		return nil, err
+	}
+	return res.GetBytes(), nil
 }

@@ -7,9 +7,11 @@ package message;
 message GetContourRequest {
     int32 t1 = 1;
     int32 t2 = 2;
-    bytes in_image = 3;
+    string filename = 3;
+    bytes in_image = 4;
 }
 
 message GetContourResponse {
-    bytes out_message = 1;
+    bool success = 1;
+    bytes out_image = 2;
 }
