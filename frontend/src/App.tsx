@@ -61,8 +61,8 @@ const App: React.FC = () => {
         }
 
         const request = GetContourRequest.create({
-            t1: 75,
-            t2: 150,
+            t1: threshold1,
+            t2: threshold2,
             filename: 'test.jpg',
             inImage: new Uint8Array(arrayBuffer),
         })
