@@ -67,6 +67,7 @@ func getContourHandler(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 			log.Printf("res.success: %v", res.GetSuccess())
+			log.Printf("len of res: %v", len(resBytes))
 			if err := conn.WriteMessage(websocket.BinaryMessage, resBytes); err != nil {
 				log.Println(err)
 				continue
