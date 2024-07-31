@@ -61,8 +61,8 @@ func convertHandler(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 			inImage := req.GetInImage()
-			log.Printf("req: t1: %d, t2: %d, filename: %s, infile len = %d",
-				req.GetT1(), req.GetT2(), req.GetFilename(), len(inImage))
+			log.Printf("req: t1: %d, t2: %d, infile len = %d",
+				req.GetT1(), req.GetT2(), len(inImage))
 
 			outImage, err := getContour(float32(req.GetT1()), float32(req.GetT2()), inImage)
 			if err != nil {
