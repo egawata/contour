@@ -1,8 +1,10 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"image"
+	"io/fs"
 	"log"
 	"net/http"
 
@@ -12,16 +14,27 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+//go:embed frontend
+var frontend embed.FS
+
+const port = 8080
+
 // start http server at port 8080
 func main() {
-	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, World!")
-	})
-	http.HandleFunc("/contour/get", getContourHandler)
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/convert", convertHandler)
+	frontFS, err := fs.Sub(frontend, "frontend")
+	if err != nil {
+		log.Fatal(err)
+	}
+	http.Handle("/", http.FileServer(http.FS(frontFS)))
+
+	log.Printf("Server started at http://localhost:%d", port)
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
-func getContourHandler(w http.ResponseWriter, r *http.Request) {
+func convertHandler(w http.ResponseWriter, r *http.Request) {
 	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			return true

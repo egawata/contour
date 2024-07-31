@@ -6,6 +6,7 @@ interface ThresholdInputProps {
     onChange: (val: number) => void
 }
 
+/* TODO: スライダーで値変更できるようにする */
 const ThresholdInput: React.FC<ThresholdInputProps> = ({
     label,
     val,

@@ -69,7 +69,7 @@ const App: React.FC = () => {
 
         const encodedReq = GetContourRequest.encode(request).finish()
 
-        const ws = new WebSocket('ws://localhost:8080/contour/get')
+        const ws = new WebSocket('ws://localhost:8080/convert')
         ws.binaryType = "arraybuffer"
 
         ws.onmessage = async (event: any) => {
