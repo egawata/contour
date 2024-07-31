@@ -1,8 +1,8 @@
 FROM alpine:3.20.2
 
 RUN apk update
-RUN apk add go npm opencv-dev
-RUN apk add gcc g++
+RUN apk add --no-cache go npm opencv-dev
+RUN apk add --no-cache gcc g++
 
 COPY backend /backend
 COPY frontend /frontend
@@ -10,6 +10,7 @@ COPY frontend /frontend
 WORKDIR /frontend
 RUN /usr/bin/npm install
 RUN /usr/bin/npm run build
+RUN rm -rf /backend/frontend
 RUN mv build /backend/frontend
 
 WORKDIR /backend
