@@ -4,6 +4,8 @@
 
 This tool extracts contour from image and output the result.
 
+<img src="sample/webapp.png" width="300">
+
 ## CLI
 
 ~~~sh
@@ -48,8 +50,13 @@ cd backend
 contour -i sample/input.jpg -o sample/output.jpg -t1 50 -t2 150
 ~~~
 
-![Input image](sample/input.jpg)
-![Output image](sample/output.jpg)
+Input image
+
+<img src="sample/input.jpg" width="300" />
+
+Output image
+
+<img src="sample/output.jpg" width="300" />
 
 ## License
 
