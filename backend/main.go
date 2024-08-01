@@ -1,10 +1,8 @@
 package main
 
 import (
-	"embed"
 	"fmt"
 	"image"
-	"io/fs"
 	"log"
 	"net/http"
 
@@ -14,19 +12,12 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-//go:embed frontend
-var frontend embed.FS
-
 const port = 8080
 
 // start http server at port 8080
 func main() {
 	http.HandleFunc("/convert", convertHandler)
-	frontFS, err := fs.Sub(frontend, "frontend")
-	if err != nil {
-		log.Fatal(err)
-	}
-	http.Handle("/", http.FileServer(http.FS(frontFS)))
+	http.Handle("/", http.FileServer(http.Dir("frontend")))
 
 	log.Printf("Server started at http://localhost:%d", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
