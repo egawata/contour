@@ -52,3 +52,7 @@ contour -i sample/input.jpg -o sample/output.jpg -t1 50 -t2 150
 
 ![Input image](sample/input.jpg)
 ![Output image](sample/output.jpg)
+
+## License
+
+Licensed under the Apache 2.0 license. Copyright (c) 2024 by egawata
