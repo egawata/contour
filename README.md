@@ -1,7 +1,5 @@
 # Contour detection
 
-Note: This tool is still under development.
-
 ## Description
 
 This tool extracts contour from image and output the result.
