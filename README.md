@@ -19,7 +19,11 @@ contour -i input.jpg -o output.png
 
 ## Web Application
 
-### Run with Docker
+### Pull Docker image
+
+[Docker image](https://hub.docker.com/r/egawata/contour/tags)
+
+### Or build Docker image manually
 
 ~~~sh
 docker build -t github.com/egawata/contour .
