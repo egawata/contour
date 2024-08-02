@@ -26,8 +26,8 @@ contour -i input.jpg -o output.png
 ### Or build Docker image manually
 
 ~~~sh
-docker build -t github.com/egawata/contour .
-docker run -p 8080:8080 github.com/egawata/contour
+docker build -t egawata/contour .
+docker run -p 8080:8080 egawata/contour
 ~~~
 
 Then open `http://localhost:8080` on your browser.
