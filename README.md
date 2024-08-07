@@ -8,6 +8,8 @@ This tool extracts contour from image and output the result.
 
 ## CLI
 
+To build from source, Go and [OpenCV](https://opencv.org/) library is required.
+
 ~~~sh
 go install github.com/egawata/contour
 contour -i input.jpg -o output.png
