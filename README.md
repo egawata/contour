@@ -4,7 +4,7 @@
 
 This tool extracts contour from image and output the result.
 
-<img src="sample/webapp.png" width="300">
+<img src="sample/webapp.png" width="400">
 
 ## CLI
 
