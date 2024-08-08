@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 import ThresholdInput from './ThresholdInput'
+import ImageContainer from './ImageContainer'
 import { GetContourRequest, GetContourResponse } from './message'
+
 
 async function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
@@ -21,9 +23,9 @@ const App: React.FC = () => {
     const [threshold1, setThreshold1] = useState(50)
     const [threshold2, setThreshold2] = useState(150)
     const [inputFile, setInputFile] = useState(null)
-    const [imageURL, setImageURL] = useState("")
-    const [resultImageURL, setResultImageURL] = useState("")
-    const [resultImageBlob, setResultImageBlob] = useState<Blob|null>(null)
+    const [inputImageURL, setInputImageURL] = useState("")
+    const [convertedImageURL, setConvertedImageURL] = useState("")
+    const [convertedImageBlob, setConvertedImageBlob] = useState<Blob|null>(null)
 
     const handleFileChange = (event: any) => {
         const f = event.target.files[0]
@@ -37,7 +39,7 @@ const App: React.FC = () => {
         reader.onload = (event: any) => {
             const imageData = event.target.result
             if (imageData !== null && typeof(imageData) === "string") {
-                setImageURL(imageData)
+                setInputImageURL(imageData)
             }
         }
         reader.onerror = (error) => {
@@ -78,8 +80,8 @@ const App: React.FC = () => {
             if (res.success) {
                 const blob = new Blob([res.outImage], { type: "image/png" })
                 const url = URL.createObjectURL(blob)
-                setResultImageURL(url)
-                setResultImageBlob(blob)
+                setConvertedImageURL(url)
+                setConvertedImageBlob(blob)
             } else {
                 console.log("request failure")
             }
@@ -94,8 +96,8 @@ const App: React.FC = () => {
     }
 
     const handleDownloadResult = () => {
-        if (resultImageBlob) {
-            const url = URL.createObjectURL(resultImageBlob)
+        if (convertedImageBlob) {
+            const url = URL.createObjectURL(convertedImageBlob)
             const a = document.createElement('a')
             a.href = url
             a.download = "contour_result.png"
@@ -105,26 +107,19 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <div>
-                <label>Input image file: </label>
-                <input type="file" id="infile" accept="image/*" onChange={handleFileChange} />
-            </div>
-            <ThresholdInput label="Threshold 1: " val={threshold1} onChange={(v) => setThreshold1(v)} />
-            <ThresholdInput label="Threshold 2: " val={threshold2} onChange={(v) => setThreshold2(v)} />
-            <div>
-                <button id="send" onClick={sendRequest}>Send</button>
-            </div>
-            {imageURL && (
+            <div className="input-container">
                 <div>
-                    <img src={imageURL} alt="Selected Image" width="400px" />
+                    <label>Input image file: </label>
+                    <input type="file" id="infile" accept="image/*" onChange={handleFileChange} />
                 </div>
-            )}
-            {resultImageURL && (
+                <ThresholdInput label="Threshold 1: " val={threshold1} onChange={(v) => setThreshold1(v)} />
+                <ThresholdInput label="Threshold 2: " val={threshold2} onChange={(v) => setThreshold2(v)} />
                 <div>
-                    <img src={resultImageURL} alt="Result Image" width="400px" />
+                    <button id="send" onClick={sendRequest}>Convert</button>
                 </div>
-            )}
-            {resultImageBlob && (
+            </div>
+            <ImageContainer origURL={inputImageURL} convertedURL={convertedImageURL} />
+            {convertedImageBlob && (
                 <div>
                     <button onClick={handleDownloadResult}>Download Result</button>
                 </div>

@@ -5,3 +5,9 @@
 .App-link {
   color: #61dafb;
 }
+
+.input-container {
+  display: inline;
+  justify-content: center;
+  margin: 30px 50px;
+}
