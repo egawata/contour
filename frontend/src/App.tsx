@@ -76,7 +76,6 @@ const App: React.FC = () => {
             const uint8data = new Uint8Array(data)
             const res = GetContourResponse.decode(uint8data)
             if (res.success) {
-                console.log("success")
                 const blob = new Blob([res.outImage], { type: "image/png" })
                 const url = URL.createObjectURL(blob)
                 setResultImageURL(url)
