@@ -1,25 +1,38 @@
-FROM alpine:3.20.2
+#
+# build backend
+#
 
-RUN apk update
-RUN apk add --no-cache go npm opencv-dev
-RUN apk add --no-cache gcc g++
+FROM ghcr.io/hybridgroup/opencv:4.9.0 AS backend
+
+ENV GOPATH=/go
 
 COPY backend /backend
+
+WORKDIR /backend
+RUN go build -o /app .
+
+#
+# build frontend
+#
+
+FROM node:22.7.0 AS frontend
+
 COPY frontend /frontend
 
 WORKDIR /frontend
-RUN /usr/bin/npm install
-RUN /usr/bin/npm run build
+RUN npm install
+RUN npm run build
 
-WORKDIR /backend
-RUN /usr/bin/go build -o /app .
+#
+# build final image
+#
 
-FROM alpine:3.20.2
-COPY --from=0 /app /app
-COPY --from=0 /frontend/build /frontend
+FROM ghcr.io/hybridgroup/opencv:4.9.0
 
-RUN apk update
-RUN apk add --no-cache opencv-dev
 
+COPY --from=backend /app /app
+COPY --from=frontend /frontend/build /frontend
+
+WORKDIR /
 EXPOSE 8080
 CMD ["/app"]
