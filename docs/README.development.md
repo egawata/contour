@@ -14,7 +14,7 @@ docker push egawata/contour:${VERSION}-arm64
 #### for amd64
 
 ~~~sh
-docker build -t egawata/contour:${VERSION}-arm64 .
+docker build -t egawata/contour:${VERSION}-amd64 .
 docker push egawata/contour:${VERSION}-amd64 
 ~~~
 

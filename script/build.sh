@@ -2,8 +2,7 @@
 
 set -ex
 
-cd frontend
-npm install
-npm run build
-cd ../backend
+script/build_front.sh
+cd /backend
 go build -o app .
+cd ..
