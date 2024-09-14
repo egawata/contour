@@ -8,6 +8,10 @@
 
 <img src="sample/webapp.png" width="400">
 
+## 利用例
+
+[Clip Studio Paint での利用例](./docs/clipstudio_howto.md)
+
 ## Web アプリケーション版
 
 いくつか方法があります。
