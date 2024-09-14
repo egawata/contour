@@ -1,5 +1,7 @@
 # Contour detection
 
+[日本語ドキュメント](./README.md)
+
 ## Description
 
 This tool extracts contour from image and output the result.
