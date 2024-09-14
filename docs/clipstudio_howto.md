@@ -46,10 +46,14 @@ Clip Studio Paint で画像を読み込みます。
 この時点で白地が透明になり、線もなめらかになっていると思います。
 必要に応じて線の太さを変えたりしてある程度編集します。
 
+### ラスタレイヤーに再変換して微調整
+
 このあとラスタレイヤーに再変換して、ベクターでは修正しづらい部分を手作業で修正します。
 
 <img src="./images/csp_howto/hand_before.png" height="200">
 <img src="./images/csp_howto/hand_after.png" height="200">
+
+### 完成
 
 完成したら色を自由に塗っていきます。
 
