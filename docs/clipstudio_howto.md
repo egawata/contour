@@ -2,6 +2,9 @@
 
 ## 元画像を準備
 
+3Dモデリングツールで作ったものや写真など、最終的に画像に出力できるものであればなんでもOKです。
+(自分に著作権または利用許諾のある画像のみ使いましょう😇)
+
 <img src="./images/csp_howto/original.png" width="200">
 
 Clip Studio Paint の 3D モデルを使用する場合、オブジェクトの `サブツール詳細` > `環境` > `レンダリング設定` を以下のようにしておくと期待通りの輪郭を抽出しやすいです。
@@ -59,5 +62,5 @@ Clip Studio Paint で画像を読み込みます。
 
 <img src="./images/csp_howto/finish.png" height="300">
 
-
+服は着ましょうね。
 
