@@ -1,6 +1,6 @@
 # Contour detection
 
-[日本語ドキュメント](./README.md)
+[日本語ドキュメント](./README_jp.md)
 
 ## Description
 
