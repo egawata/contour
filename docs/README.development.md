@@ -34,15 +34,8 @@ Confirm both images (amd64/arm64) exist.
 #### Create hybrid image
 
 ~~~sh
-docker manifest create \
-    egawata/contour:${VERSION} \
+docker buildx imagetools create \
+    -t egawata/contour:${VERSION} \
     egawata/contour:${VERSION}-amd64 \
     egawata/contour:${VERSION}-arm64
-docker manifest inspect egawata/contour:${VERSION}
-~~~
-
-#### Push the image
-
-~~~sh
-docker manifest push egawata/contour:${VERSION}
 ~~~
