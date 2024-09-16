@@ -2,7 +2,7 @@
 
 set -ex
 
-cd frontend
+pushd frontend
 npm install
 npm run build
-cd ..
+popd

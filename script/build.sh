@@ -3,6 +3,6 @@
 set -ex
 
 script/build_front.sh
-cd /backend
+pushd backend
 go build -o app .
-cd ..
+popd
