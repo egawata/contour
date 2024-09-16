@@ -20,6 +20,7 @@ FROM node:22.7.0 AS frontend
 COPY frontend /frontend
 
 WORKDIR /frontend
+RUN if [ -n "$APP_PATH" ]; then node script/update_homepage.js $APP_PATH; fi
 RUN npm install
 RUN npm run build
 
