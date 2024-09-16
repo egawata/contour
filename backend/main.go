@@ -5,6 +5,9 @@ import (
 	"image"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
+	"strings"
 
 	"github.com/egawata/contour/backend/message"
 	"github.com/gorilla/websocket"
@@ -12,17 +15,56 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-const port = 8080
+const (
+	defaultPort    = 8080
+	defaultAppRoot = "/"
+	frontDir       = "frontend"
+)
 
 // start http server at port 8080
 func main() {
-	http.HandleFunc("/convert", convertHandler)
-	http.Handle("/", http.FileServer(http.Dir("frontend")))
+	port := defaultPort
+	appRoot := defaultAppRoot
 
-	log.Printf("Server started at http://localhost:%d", port)
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
+	if p := os.Getenv("APP_PORT"); p != "" {
+		var err error
+		port, err = strconv.Atoi(p)
+		if err != nil {
+			log.Fatalf("invalid PORT : %s : %v", p, err)
+		}
+	}
+	if p := os.Getenv("APP_PATH"); p != "" {
+		if p[0] != '/' {
+			log.Fatalf("path must start with / : %s", p)
+		}
+		if len(p) > 1 && p[len(p)-1] != '/' {
+			p += "/"
+		}
+		appRoot = p
+	}
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(appRoot+"convert", convertHandler)
+	mux.Handle(appRoot, &rootHandler{appRoot: appRoot})
+
+	log.Printf("Server started at http://localhost:%d%s", port, appRoot)
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), mux); err != nil {
 		log.Fatal(err)
 	}
+}
+
+type rootHandler struct {
+	appRoot string
+}
+
+func (h *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	upath := r.URL.Path
+	if !strings.HasPrefix(upath, h.appRoot) {
+		http.NotFound(w, r)
+		return
+	}
+	path := fmt.Sprintf("%s/%s", frontDir, strings.TrimPrefix(upath, h.appRoot))
+	http.ServeFile(w, r, path)
 }
 
 func convertHandler(w http.ResponseWriter, r *http.Request) {
