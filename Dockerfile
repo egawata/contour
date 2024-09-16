@@ -17,6 +17,7 @@ RUN go build -o /app .
 
 FROM node:22.7.0 AS frontend
 
+ARG APP_PATH
 COPY frontend /frontend
 
 WORKDIR /frontend
@@ -29,6 +30,10 @@ RUN npm run build
 #
 
 FROM alpine:3.20.3
+
+ARG APP_PATH
+
+ENV APP_PATH=${APP_PATH}
 
 COPY --from=backend /app /app
 COPY --from=frontend /frontend/build /frontend
