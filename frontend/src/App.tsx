@@ -69,8 +69,8 @@ const App: React.FC = () => {
         })
 
         const encodedReq = GetContourRequest.encode(request).finish()
-
-        const ws = new WebSocket('ws://' + window.location.host + window.location.pathname + 'convert')
+        const scheme = window.location.protocol === "https:" ? "wss" : "ws"
+        const ws = new WebSocket(scheme + '://' + window.location.host + window.location.pathname + 'convert')
         ws.binaryType = "arraybuffer"
 
         ws.onmessage = async (event: any) => {
