@@ -4,7 +4,6 @@ import ThresholdInput from './ThresholdInput'
 import ImageContainer from './ImageContainer'
 import { GetContourRequest, GetContourResponse } from './message'
 
-
 async function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
