@@ -54,6 +54,13 @@ libstdc++ \
 libgcc \
 libc6-compat
 
+# Create non-root user for security
+RUN adduser -D -u 1000 appuser
+
 WORKDIR /
 EXPOSE 8080
+
+# Run as non-root user (use numeric UID for Kubernetes runAsNonRoot validation)
+USER 1000
+
 CMD ["/app"]
